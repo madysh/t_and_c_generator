@@ -1,18 +1,19 @@
 defmodule TAndCGenerator do
-  @moduledoc """
-  Documentation for `TAndCGenerator`.
-  """
+  def generate do
+    template = load_template()
+    sections = load_json(:sections)
+    clauses = load_json(:clauses)
+  end
 
-  @doc """
-  Hello world.
+  def load_template() do
+    {:ok, json_content} = File.read("data/template.txt")
+    json_content
+  end
 
-  ## Examples
+  def load_json(file) do
+    {:ok, json_content} = File.read("data/#{file}.json")
+    {:ok, data} = Jason.decode(json_content)
 
-      iex> TAndCGenerator.hello()
-      :world
-
-  """
-  def hello do
-    :world
+    data
   end
 end
