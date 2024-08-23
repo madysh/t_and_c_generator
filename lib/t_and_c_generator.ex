@@ -1,18 +1,18 @@
 defmodule TAndCGenerator do
   def generate do
-    template = load_template()
-    sections = load_json(:sections)
-    clauses = load_json(:clauses)
+    _template = load_file("template.txt")
+    _sections = load_json(:sections)
+    _clauses = load_json(:clauses)
   end
 
-  def load_template() do
-    {:ok, json_content} = File.read("data/template.txt")
-    json_content
+  def load_file(file) do
+    {:ok, content} = File.read("data/#{file}")
+
+    content
   end
 
   def load_json(file) do
-    {:ok, json_content} = File.read("data/#{file}.json")
-    {:ok, data} = Jason.decode(json_content)
+    {:ok, data} = Jason.decode(load_file("#{file}.json"))
 
     data
   end
