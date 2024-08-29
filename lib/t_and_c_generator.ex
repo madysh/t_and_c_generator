@@ -1,19 +1,48 @@
 defmodule TAndCGenerator do
+  @clauses File.read!("data/clauses.json") |> Jason.decode!()
+  @sections File.read!("data/sections.json") |> Jason.decode!()
+
   def generate do
-    _template = load_file("template.txt")
-    _sections = load_json(:sections)
-    _clauses = load_json(:clauses)
+    File.stream!("data/template.txt")
+    |> Enum.each(&parse_line/1)
   end
 
-  def load_file(file) do
-    {:ok, content} = File.read("data/#{file}")
+  defp parse_line(line) do
+    case Regex.run(~r/\[(CLAUSE|SECTION)-(\d+)\]/, line) do
+      [match, "SECTION", id] ->
+        String.replace(line, match, section_composer(String.to_integer(id)))
 
-    content
+      [match, "CLAUSE", id] ->
+        String.replace(line, match, clause_composer(String.to_integer(id)))
+
+      nil ->
+        line
+    end
+    |> IO.puts()
   end
 
-  def load_json(file) do
-    {:ok, data} = Jason.decode(load_file("#{file}.json"))
+  defp section_composer(id) do
+    case find_by_id(@sections, id) do
+      %{"id" => _, "clauses_ids" => clauses_ids} ->
+        clauses_ids
+        |> Enum.map(&clause_composer/1)
+        |> Enum.join(" ")
 
-    data
+      _ ->
+        ""
+    end
+  end
+
+  defp clause_composer(id) do
+    case find_by_id(@clauses, id) do
+      %{"id" => _, "text" => text} -> text
+      _ -> ""
+    end
+  end
+
+  defp find_by_id(data, id) do
+    Enum.find(data, fn %{"id" => json_id} ->
+      json_id == id
+    end)
   end
 end
