@@ -7,7 +7,7 @@ defmodule TAndCGenerator do
     IO.puts(template)
   end
 
-  def replace_clauses(template) do
+  defp replace_clauses(template) do
     clauses = load_json(:clauses)
 
     Enum.reduce(clauses, template, fn clause, acc ->
@@ -15,7 +15,7 @@ defmodule TAndCGenerator do
     end)
   end
 
-  def replace_sections(template) do
+  defp replace_sections(template) do
     sections = load_json(:sections)
 
     Enum.reduce(sections, template, fn section, acc ->
@@ -24,19 +24,19 @@ defmodule TAndCGenerator do
     end)
   end
 
-  def section_clauses(clauses_ids) do
+  defp section_clauses(clauses_ids) do
     clauses_ids
     |> Enum.map(fn clause_id -> "[CLAUSE-#{clause_id}]" end)
     |> Enum.join(";")
   end
 
-  def load_file(file) do
+  defp load_file(file) do
     {:ok, content} = File.read("data/#{file}")
 
     content
   end
 
-  def load_json(file) do
+  defp load_json(file) do
     {:ok, data} = Jason.decode(load_file("#{file}.json"))
 
     data
