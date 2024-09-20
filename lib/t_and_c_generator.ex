@@ -1,13 +1,13 @@
 defmodule TAndCGenerator do
   def generate(template, sections, clauses) do
-    result = load_file(template)
-    result = replace_sections(sections, result)
-    result = replace_clauses(clauses, result)
-
-    IO.puts(result)
+    template
+    |> load_file()
+    |> replace_sections(sections)
+    |> replace_clauses(clauses)
+    |> IO.puts()
   end
 
-  defp replace_clauses(clauses, template) do
+  defp replace_clauses(template, clauses) do
     clauses = load_json(clauses)
 
     Enum.reduce(clauses, template, fn clause, acc ->
@@ -15,7 +15,7 @@ defmodule TAndCGenerator do
     end)
   end
 
-  defp replace_sections(sections, template) do
+  defp replace_sections(template, sections) do
     sections = load_json(sections)
 
     Enum.reduce(sections, template, fn section, acc ->
