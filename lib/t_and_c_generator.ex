@@ -1,22 +1,22 @@
 defmodule TAndCGenerator do
-  def generate do
-    template = load_file("template.txt")
-    template = replace_sections(template)
-    template = replace_clauses(template)
-
-    IO.puts(template)
+  def generate(template, sections, clauses) do
+    template
+    |> load_file()
+    |> replace_sections(sections)
+    |> replace_clauses(clauses)
+    |> IO.puts()
   end
 
-  defp replace_clauses(template) do
-    clauses = load_json(:clauses)
+  defp replace_clauses(template, clauses) do
+    clauses = load_json(clauses)
 
     Enum.reduce(clauses, template, fn clause, acc ->
       String.replace(acc, "[CLAUSE-#{clause["id"]}]", clause["text"])
     end)
   end
 
-  defp replace_sections(template) do
-    sections = load_json(:sections)
+  defp replace_sections(template, sections) do
+    sections = load_json(sections)
 
     Enum.reduce(sections, template, fn section, acc ->
       clauses = section_clauses(section["clauses_ids"])
@@ -31,13 +31,13 @@ defmodule TAndCGenerator do
   end
 
   defp load_file(file) do
-    {:ok, content} = File.read("data/#{file}")
+    {:ok, content} = File.read(file)
 
     content
   end
 
   defp load_json(file) do
-    {:ok, data} = Jason.decode(load_file("#{file}.json"))
+    {:ok, data} = Jason.decode(load_file(file))
 
     data
   end
