@@ -14,6 +14,6 @@ Your legals.
 
 """
 
-    assert ExUnit.CaptureIO.capture_io(fn -> TAndCGenerator.generate("./data/template.txt", "./data/sections.json", "./data/clauses.json"); :foo end) == expected
+    assert ExUnit.CaptureIO.capture_io(fn -> TAndCGenerator.generate("./data/template.txt", "./data/sections.json", "./data/clauses.json", "./data/mappings.json"); :foo end) == expected
   end
 end
