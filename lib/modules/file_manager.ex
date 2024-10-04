@@ -1,13 +1,9 @@
 defmodule FileManager do
   def load_file(file) do
-    {:ok, content} = File.read(file)
-
-    content
+    File.read!(file)
   end
 
   def load_json(file) do
-    {:ok, data} = Jason.decode(load_file(file))
-
-    data
+    Jason.decode!(load_file(file))
   end
 end

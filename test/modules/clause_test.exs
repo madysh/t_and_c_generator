@@ -1,6 +1,5 @@
 defmodule ClauseTest do
   use ExUnit.Case
-  doctest Clause
 
   test "replaces a clause" do
     template = "This is a [CLAUSE-1] [CLAUSE-100]."

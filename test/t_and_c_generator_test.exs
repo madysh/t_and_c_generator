@@ -1,6 +1,5 @@
 defmodule TAndCGeneratorTest do
   use ExUnit.Case
-  doctest TAndCGenerator
 
   test "replaces the ttemplate" do
     expected = """
