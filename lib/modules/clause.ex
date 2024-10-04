@@ -13,4 +13,4 @@ defmodule Clause do
       String.replace(acc, "[#{marker()}-#{clause["id"]}]", value)
     end)
   end
- end
+end

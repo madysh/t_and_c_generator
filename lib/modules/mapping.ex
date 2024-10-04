@@ -6,9 +6,9 @@ defmodule Mapping do
   end
 
   defp replace_key(text, keys, value) do
-    if is_binary(value) do
+    if is_map(value) do
       Enum.each(value, fn {k, v} ->
-        replace_key(text, keys++k, v)
+        replace_key(text, keys++[k], v)
       end)
     else
       String.replace(text, "@{ #{Enum.join(keys, ".")} }", Integer.to_string(value))
