@@ -10,7 +10,12 @@ defmodule Clause do
     Enum.reduce(clauses, template, fn clause, acc ->
       value = Mapping.replace(clause["text"], mappings)
 
-      String.replace(acc, "[#{marker()}-#{clause["id"]}]", value)
+      String.replace(acc, "[#{marker()}-#{clause["id"]}]", value, global: false)
     end)
+    |> replace_misseing_tags()
+  end
+
+  defp replace_misseing_tags(template) do
+    String.replace(template, ~r/\[(CLAUSE)-(\d+)\]/, "")
   end
 end
