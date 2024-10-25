@@ -15,6 +15,6 @@ defmodule Mix.Tasks.Generate do
   end
 
   defp fill_defaults(args) do
-    args ++ List.duplicate(nil, 4 - length(args)) |> Enum.take(4)
+    (args ++ List.duplicate(nil, 4 - length(args))) |> Enum.take(4)
   end
 end
