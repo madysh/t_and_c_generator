@@ -1,17 +1,12 @@
 defmodule Mapping do
-  def replace(text, mappings) do
-    Enum.each(mappings, fn {k, v} ->
-      replace_key(text, [k], v)
-    end)
-  end
+  def replace(template, mappings) do
+    mappings = FileManager.load_json(mappings)
 
-  defp replace_key(text, keys, value) do
-    if is_map(value) do
-      Enum.each(value, fn {k, v} ->
-        replace_key(text, keys++[k], v)
-      end)
-    else
-      String.replace(text, "@{ #{Enum.join(keys, ".")} }", Integer.to_string(value))
-    end
+    Regex.replace(~r/@{ ([\w\.]+) }\s/, template, fn _match, key ->
+      case get_in(mappings, String.split(key, ".")) do
+        nil -> ""
+        value -> "#{value} "
+      end
+    end)
   end
 end

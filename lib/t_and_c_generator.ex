@@ -3,12 +3,8 @@ defmodule TAndCGenerator do
     template
     |> FileManager.load_file()
     |> Section.replace(sections)
-    |> Clause.replace(clauses, mapping)
-    |> replace_misseing_tags()
+    |> Clause.replace(clauses)
+    |> Mapping.replace(mapping)
     |> IO.puts()
-  end
-
-  defp replace_misseing_tags(template) do
-    String.replace(template, ~r/\[(CLAUSE|SECTION)-(\d+)\]/, "")
   end
 end
