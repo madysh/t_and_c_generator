@@ -7,7 +7,7 @@ defmodule Clause do
     clauses = FileManager.load_json(clauses)
 
     Enum.reduce(clauses, template, fn clause, acc ->
-      String.replace(acc, "[#{marker()}-#{clause["id"]}]", clause["text"])
+      String.replace(acc, "[#{marker()}-#{clause["id"]}]", clause["text"], global: false)
     end)
   end
 end
