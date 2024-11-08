@@ -1,0 +1,6 @@
+[
+  { "id": 1, "text": "The quick brown @{ count } foxes" },
+  { "id": 2, "text": "jumps over the lazy @{ foxes.count } dogs" },
+  { "id": 3, "text": "And dies" },
+  { "id": 4, "text": "The @{ foxes.notfound } white horse is white" }
+]
