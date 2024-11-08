@@ -9,7 +9,7 @@ defmodule Section do
       clauses = section_clauses(section["clauses_ids"])
       String.replace(acc, "[#{@marker}-#{section["id"]}]", clauses, global: false)
     end)
-    |> replace_misseing_tags(section_ids)
+    |> replace_missing_tags(section_ids)
   end
 
   defp section_clauses(clauses_ids) do
@@ -18,7 +18,7 @@ defmodule Section do
     |> Enum.join(";")
   end
 
-  defp replace_misseing_tags(template, section_ids) do
+  defp replace_missing_tags(template, section_ids) do
     String.replace(template, ~r/\[SECTION-(\d+)\]/, fn match ->
       case Regex.run(~r/\d+/, match) do
         [digit] ->
@@ -29,6 +29,7 @@ defmodule Section do
           else
             ""
           end
+
         _ ->
           match
       end
